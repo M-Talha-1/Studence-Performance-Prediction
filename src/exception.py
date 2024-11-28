@@ -1,8 +1,9 @@
 import sys
+import logging
 
 def error_message_info(error, error_detail:sys)->str:
     _,_,exec_tb = error_detail.exc_info()
-    file_name = exec_tb.tb_frame.f_code.co_filename()
+    file_name = exec_tb.tb_frame.f_code.co_filename
     error_message = f"The error  occured in python script name {file_name}, line no {exec_tb.tb_lineno}, and error message {str(error)}"
 
     return error_message
@@ -14,3 +15,10 @@ class CustomException(Exception):
     
     def __str__(self):
         return self.error_message
+    
+if __name__ == "__main__":
+    try:
+        a = 1/0
+    except Exception as e:
+        logging.info('Divide by zero error')
+        raise CustomException(e, sys)
